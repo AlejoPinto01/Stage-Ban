@@ -1,81 +1,76 @@
-import 'package:flutter/material.dart';
+import 'dart:developer';
 
-class MyHomePage extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:stage_ban_sbs/src/stage_card.dart';
+
+class MyHomePage extends StatefulWidget {
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  bool _counterPick = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('SBS Ruleset'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Column(
-              children: [
-                Text('Starter'),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _stageCard(),
-                    _stageCard(),
-                    _stageCard(),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _stageCard(),
-                    _stageCard(),
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Text('Counterpick'),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _stageCard(),
-                _stageCard(),
-                _stageCard(),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  _stageCard() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: GestureDetector(
-        onTap: () {},
-        child: Container(
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                spreadRadius: 1,
-                blurRadius: 10,
-                color: Colors.black45,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Column(
+            children: [
+              Text('Starter'),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  StageCard(),
+                  StageCard(),
+                  StageCard(),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  StageCard(),
+                  StageCard(),
+                ],
               ),
             ],
-            color: const Color(0xff7c94b6),
-            image: const DecorationImage(
-              image: AssetImage('assets/battlefield.jpg'),
-              fit: BoxFit.cover,
-            ),
-            borderRadius: BorderRadius.circular(12),
           ),
-          width: 100,
-          height: 100,
-          child: Icon(
-            Icons.cancel,
-            size: 100,
-            color: Colors.red,
+          Visibility(
+            visible: _counterPick,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 20,
+                ),
+                Text('Counterpick'),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    StageCard(),
+                    StageCard(),
+                    StageCard(),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+      floatingActionButton: Container(
+        child: SwitchListTile(
+          onChanged: (value) {
+            setState(() {
+              _counterPick = !_counterPick;
+            });
+          },
+          value: _counterPick,
+          title: Text(
+            'View counterpick',
+            textAlign: TextAlign.end,
           ),
         ),
       ),
