@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 
 class StageCard extends StatefulWidget {
+  bool banned = false;
+  String _stageName;
+  StageCard(this._stageName);
+
   @override
   State<StageCard> createState() => _StageCardState();
 }
 
 class _StageCardState extends State<StageCard> {
-  bool banned = false;
+  double _width = 170;
+  double _height = 110;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +20,7 @@ class _StageCardState extends State<StageCard> {
       child: GestureDetector(
         onTap: () {
           setState(() {
-            banned = !banned;
+            widget.banned = !widget.banned;
           });
         },
         child: Container(
@@ -28,23 +33,34 @@ class _StageCardState extends State<StageCard> {
               ),
             ],
             color: const Color(0xff7c94b6),
-            image: const DecorationImage(
-              image: AssetImage('assets/battlefield.jpg'),
-              fit: BoxFit.cover,
-            ),
             borderRadius: BorderRadius.circular(12),
           ),
-          width: 100,
-          height: 100,
-          child: AnimatedScale(
-            scale: banned ? 1 : 0,
-            duration: Duration(milliseconds: 50),
-            curve: Curves.bounceIn,
-            child: Icon(
-              Icons.cancel,
-              size: 100,
-              color: Colors.red,
-            ),
+          width: _width,
+          height: _height,
+          child: Stack(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image.asset(
+                  widget._stageName,
+                  fit: BoxFit.cover,
+                  width: _width,
+                  height: _height,
+                ),
+              ),
+              Center(
+                child: AnimatedScale(
+                  scale: widget.banned ? 1 : 0,
+                  duration: Duration(milliseconds: 50),
+                  curve: Curves.bounceIn,
+                  child: Icon(
+                    Icons.cancel,
+                    size: 100,
+                    color: Colors.red,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
