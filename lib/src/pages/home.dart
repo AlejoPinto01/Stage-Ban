@@ -58,23 +58,19 @@ class _MyHomePageState extends State<MyHomePage> {
             duration: Duration(milliseconds: 200),
             opacity: _counterPick ? 1 : 0,
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Column(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        _cards[5],
-                        _cards[6],
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        _cards[7],
-                      ],
-                    ),
+                    _cards[5],
+                    _cards[6],
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    _cards[7],
                   ],
                 ),
               ],
@@ -95,7 +91,9 @@ class _MyHomePageState extends State<MyHomePage> {
             },
             value: _counterPick,
           ),
-          SizedBox(width: 50,),
+          SizedBox(
+            width: 50,
+          ),
           FloatingActionButton(
             onPressed: () {
               setState(() {

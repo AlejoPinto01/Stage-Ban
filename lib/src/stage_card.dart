@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stage_ban_sbs/src/data.dart';
+import 'package:stage_ban_sbs/src/pages/stage_page.dart';
 
 class StageCard extends StatefulWidget {
   bool banned = false;
@@ -32,6 +33,15 @@ class _StageCardState extends State<StageCard> {
             widget.banned = !widget.banned;
             setCounter(widget.banned ? getCounter() + 1 : getCounter() - 1);
             print(getCounter());
+            if (getCounter() > 3) {
+              setCounter(0);
+              final route = MaterialPageRoute(
+                builder: (context) {
+                  return StagePage(widget._stageName);
+                },
+              );
+              Navigator.push(context, route);
+            }
           });
         },
         child: Container(
@@ -51,11 +61,14 @@ class _StageCardState extends State<StageCard> {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(12),
-                child: Image.asset(
-                  widget._stageName,
-                  fit: BoxFit.cover,
-                  width: _width,
-                  height: _height,
+                child: Hero(
+                  tag: widget._stageName,
+                  child: Image.asset(
+                    widget._stageName,
+                    fit: BoxFit.cover,
+                    width: _width,
+                    height: _height,
+                  ),
                 ),
               ),
               Center(
