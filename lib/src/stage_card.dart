@@ -5,7 +5,13 @@ import 'package:stage_ban_sbs/src/pages/stage_page.dart';
 class StageCard extends StatefulWidget {
   bool banned = false;
   String _stageName;
-  StageCard(this._stageName);
+  double _width = 260;
+  double _height = 130;
+
+  StageCard(this._stageName, BuildContext context) {
+    _width = MediaQuery.of(context).size.width / 2 - 20;
+    _height = MediaQuery.of(context).size.height / 4.5 - 60;
+  }
 
   bool isBanned() {
     return banned;
@@ -15,33 +21,46 @@ class StageCard extends StatefulWidget {
     this.banned = banned;
   }
 
+  double getWidth() {
+    return _width;
+  }
+
+  void setWidth(double width) {
+    _width = width;
+  }
+
+  double getHeight() {
+    return _height;
+  }
+
+  void setHeight(double height) {
+    _height = height;
+  }
+
   @override
   State<StageCard> createState() => _StageCardState();
 }
 
 class _StageCardState extends State<StageCard> {
-  double _width = 170;
-  double _height = 90;
-
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(7.0),
+      padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
         onTap: () {
           setState(() {
             widget.banned = !widget.banned;
             setCounter(widget.banned ? getCounter() + 1 : getCounter() - 1);
             print(getCounter());
-            if (getCounter() > 3) {
-              setCounter(0);
-              final route = MaterialPageRoute(
-                builder: (context) {
-                  return StagePage(widget._stageName);
-                },
-              );
-              Navigator.push(context, route);
-            }
+            // if (getCounter() > 3) {
+            //   setCounter(0);
+            //   final route = MaterialPageRoute(
+            //     builder: (context) {
+            //       return StagePage(widget._stageName);
+            //     },
+            //   );
+            //   Navigator.push(context, route);
+            // }
           });
         },
         child: Container(
@@ -50,13 +69,14 @@ class _StageCardState extends State<StageCard> {
               BoxShadow(
                 spreadRadius: 1,
                 blurRadius: 10,
-                color: Colors.black45,
+                //color: Colors.black45,
+                color: Colors.transparent,
               ),
             ],
             borderRadius: BorderRadius.circular(12),
           ),
-          width: _width,
-          height: _height,
+          width: widget._width,
+          height: widget._height,
           child: Stack(
             children: [
               ClipRRect(
@@ -66,8 +86,8 @@ class _StageCardState extends State<StageCard> {
                   child: Image.asset(
                     widget._stageName,
                     fit: BoxFit.cover,
-                    width: _width,
-                    height: _height,
+                    width: widget._width,
+                    height: widget._height,
                   ),
                 ),
               ),
@@ -78,7 +98,7 @@ class _StageCardState extends State<StageCard> {
                   curve: Curves.bounceInOut,
                   child: Icon(
                     Icons.cancel,
-                    size: _height,
+                    size: widget._height,
                     color: Colors.red,
                   ),
                 ),

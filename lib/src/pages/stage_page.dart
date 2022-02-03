@@ -8,13 +8,17 @@ class StagePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(_imagePath),),
+      appBar: AppBar(
+        title: Text('Selected stage'),
+      ),
       body: Container(
-        child: Hero(
-          tag: _imagePath,
-          child: Image.asset(
-            _imagePath,
-            fit: BoxFit.cover,
+        child: Center(
+          child: Hero(
+            tag: _imagePath,
+            child: Image.asset(
+              _imagePath,
+              fit: BoxFit.cover,
+            ),
           ),
         ),
       ),
