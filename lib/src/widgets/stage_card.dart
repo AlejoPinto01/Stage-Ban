@@ -1,16 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:stage_ban_sbs/src/data.dart';
+import 'package:stage_ban_sbs/src/data/data.dart';
+import 'package:stage_ban_sbs/src/models/stage.dart';
 import 'package:stage_ban_sbs/src/pages/stage_page.dart';
 
 class StageCard extends StatefulWidget {
   bool banned = false;
-  String _stageName;
-  double _width = 260;
-  double _height = 130;
+  Stage _stage;
+  double _width = 185;
+  double _height = 115;
 
-  StageCard(this._stageName, BuildContext context) {
-    _width = MediaQuery.of(context).size.width / 2 - 20;
-    _height = MediaQuery.of(context).size.height / 4.5 - 60;
+  StageCard(this._stage, BuildContext context) {
+    if (MediaQuery.of(context).size.width < 500) {
+      _width = MediaQuery.of(context).size.width / 2 - 20;
+    } else {
+      _width = MediaQuery.of(context).size.width / 4 - 20;
+    }
+    if (MediaQuery.of(context).size.height < 500) {
+      _height = MediaQuery.of(context).size.height / 2 - 60;
+    } else {
+      _height = MediaQuery.of(context).size.height / 4 - 50;
+    }
+    // _width = MediaQuery.of(context).size.width / 2 - 20;
+    // _height = MediaQuery.of(context).size.height / 4.5 - 60;
+    print(MediaQuery.of(context).size.width);
+    print(MediaQuery.of(context).size.height);
+    print('Width = $_width - Height = $_height');
   }
 
   bool isBanned() {
@@ -79,15 +93,42 @@ class _StageCardState extends State<StageCard> {
           height: widget._height,
           child: Stack(
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Hero(
-                  tag: widget._stageName,
-                  child: Image.asset(
-                    widget._stageName,
-                    fit: BoxFit.cover,
-                    width: widget._width,
-                    height: widget._height,
+              Positioned.fill(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Hero(
+                    tag: widget._stage.stageName,
+                    child: Image.asset(
+                      widget._stage.imagePath,
+                      fit: BoxFit.cover,
+                      width: widget._width,
+                      height: widget._height,
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: Container(
+                  height: 35,
+                  decoration: BoxDecoration(
+                    color: Colors.black87,
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(12),
+                      bottomRight: Radius.circular(12),
+                    ),
+                  ),
+                  child: Center(
+                    child: Text(
+                      widget._stage.stageName,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                      ),
+                    ),
                   ),
                 ),
               ),
